@@ -16,7 +16,7 @@ function renderAuth() {
   app.innerHTML = `
     <main class="auth-screen">
       <section class="auth-art">
-        <div class="auth-brand"><img class="brand-mark" src="/image/school-seal.svg" alt="" /><div><div class="auth-brand-name">EduCloud</div><div class="auth-brand-sub">School Management</div></div></div>
+        <div class="auth-brand"><img class="brand-mark" src="/image/school-seal.svg" alt="" /><div><div class="auth-brand-name">RTNCloud</div><div class="auth-brand-sub">School Management</div></div></div>
         <div class="auth-promo"><h1>One place for your school community.</h1><p>Keep student records, courses, and enrollments organized with a clear view of your school day.</p></div>
         <div class="auth-caption">A simple workspace for learning communities</div>
       </section>
