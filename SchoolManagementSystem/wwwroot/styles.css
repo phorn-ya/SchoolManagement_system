@@ -1,13 +1,14 @@
 :root {
   color-scheme: light;
-  --ink: #20232b;
-  --muted: #78808d;
-  --line: #e8ebf0;
+  --ink: #1d2b3b;
+  --muted: #778393;
+  --line: #e4e8ed;
   --surface: #fff;
-  --page: #f7f8fb;
-  --blue: #3978e8;
-  --blue-dark: #2464d3;
-  --blue-soft: #edf4ff;
+  --page: #f6f7f8;
+  --blue: #193b5a;
+  --blue-dark: #122d47;
+  --blue-soft: #edf2f5;
+  --gold: #c7a967;
   --green: #28a66a;
   --red: #d84545;
   --shadow: 0 2px 6px rgb(26 39 61 / 4%), 0 1px 2px rgb(26 39 61 / 3%);
@@ -55,16 +56,12 @@ button {
 }
 .brand-mark {
   display: grid;
-  width: 38px;
-  height: 38px;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 auto;
   place-items: center;
-  border-radius: 12px;
-  color: white;
-  background: var(--blue);
-  font-family: Manrope, sans-serif;
-  font-size: 19px;
-  font-weight: 800;
-  box-shadow: 0 5px 12px #3978e833;
+  border-radius: 50%;
+  object-fit: contain;
 }
 .app-shell {
   display: grid;
@@ -83,17 +80,23 @@ button {
 }
 .brand {
   display: flex;
-  min-height: 76px;
+  min-height: 82px;
   align-items: center;
-  gap: 11px;
-  padding: 0 21px;
+  gap: 12px;
+  padding: 0 18px;
   border-bottom: 1px solid var(--line);
 }
+.brand-copy {
+  min-width: 0;
+}
 .brand-name {
+  overflow: hidden;
   font-family: Manrope, sans-serif;
   font-size: 15px;
   font-weight: 800;
   letter-spacing: -0.3px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .brand-subtitle {
   margin-top: 2px;
@@ -130,9 +133,12 @@ button {
   background: #f5f7fa;
 }
 .nav-item.active {
-  color: #245ebc;
-  background: #eff4fc;
+  color: var(--blue);
+  background: #f0f3f5;
   font-weight: 700;
+}
+.nav-item.active .nav-icon {
+  color: #a17d38;
 }
 .nav-icon {
   display: grid;
@@ -170,7 +176,7 @@ button {
   place-items: center;
   border-radius: 50%;
   color: #fff;
-  background: #4282ee;
+  background: #315a78;
   font-size: 12px;
   font-weight: 700;
 }
@@ -341,7 +347,7 @@ h1 {
   border-color: var(--blue);
   color: #fff;
   background: var(--blue);
-  box-shadow: 0 2px 4px #3978e82b;
+  box-shadow: 0 2px 4px #193b5a26;
 }
 .button.primary:hover {
   border-color: var(--blue-dark);
@@ -833,14 +839,16 @@ tbody tr:hover {
   overflow: hidden;
   padding: clamp(28px, 6vw, 74px);
   color: #fff;
-  background: linear-gradient(145deg, #286bd7 0%, #397de9 55%, #63a1f3 100%);
+  background:
+    radial-gradient(ellipse at 82% 81%, #244967 0, transparent 47%),
+    linear-gradient(145deg, #10263d 0%, #173652 58%, #1c4261 100%);
 }
 .auth-art::before,
 .auth-art::after {
   position: absolute;
   width: 440px;
   height: 440px;
-  border: 1px solid #ffffff27;
+  border: 1px solid #c7a9673b;
   border-radius: 50%;
   content: "";
 }
@@ -848,9 +856,9 @@ tbody tr:hover {
   right: -120px;
   bottom: -190px;
   box-shadow:
-    0 0 0 35px #ffffff0c,
-    0 0 0 70px #ffffff0b,
-    0 0 0 105px #ffffff09;
+    0 0 0 35px #c7a9670c,
+    0 0 0 70px #c7a9670b,
+    0 0 0 105px #c7a96709;
 }
 .auth-art::after {
   top: 18%;
@@ -865,11 +873,7 @@ tbody tr:hover {
 .auth-brand {
   display: flex;
   align-items: center;
-  gap: 11px;
-}
-.auth-brand .brand-mark {
-  color: var(--blue);
-  background: #fff;
+  gap: 12px;
 }
 .auth-brand-name {
   font-family: Manrope, sans-serif;
@@ -878,7 +882,7 @@ tbody tr:hover {
 }
 .auth-brand-sub {
   margin-top: 2px;
-  color: #e0edff;
+  color: #d3d9df;
   font-size: 11px;
 }
 .auth-promo {
@@ -891,15 +895,24 @@ tbody tr:hover {
   line-height: 1.12;
   letter-spacing: -1.6px;
 }
+.auth-promo h1::after {
+  display: block;
+  width: 44px;
+  height: 3px;
+  margin-top: 20px;
+  border-radius: 2px;
+  background: var(--gold);
+  content: "";
+}
 .auth-promo p {
   max-width: 390px;
   margin-bottom: 0;
-  color: #e0edff;
+  color: #d3dce4;
   font-size: 14px;
   line-height: 1.7;
 }
 .auth-caption {
-  color: #e0edff;
+  color: #c5d0da;
   font-size: 11px;
 }
 .auth-card-wrap {

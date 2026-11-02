@@ -16,7 +16,7 @@ function renderAuth() {
   app.innerHTML = `
     <main class="auth-screen">
       <section class="auth-art">
-        <div class="auth-brand"><span class="brand-mark">E</span><div><div class="auth-brand-name">EduCloud</div><div class="auth-brand-sub">School Management</div></div></div>
+        <div class="auth-brand"><img class="brand-mark" src="/image/school-seal.svg" alt="" /><div><div class="auth-brand-name">EduCloud</div><div class="auth-brand-sub">School Management</div></div></div>
         <div class="auth-promo"><h1>One place for your school community.</h1><p>Keep student records, courses, and enrollments organized with a clear view of your school day.</p></div>
         <div class="auth-caption">A simple workspace for learning communities</div>
       </section>
@@ -42,7 +42,7 @@ function renderShell() {
   app.innerHTML = `
     <div class="app-shell">
       <aside class="sidebar" id="sidebar">
-        <div class="brand"><span class="brand-mark">E</span><div><div class="brand-name">${escapeHtml(state.settings.schoolName || "EduCloud")}</div><div class="brand-subtitle">School Management</div></div></div>
+        <div class="brand"><img class="brand-mark" src="/image/school-seal.svg" alt="" /><div class="brand-copy"><div class="brand-name">${escapeHtml(state.settings.schoolName || "RTNCloud")}</div><div class="brand-subtitle">School Management</div></div></div>
         <nav class="side-nav" aria-label="Main navigation">
           ${navButton("dashboard", "Dashboard")}
           ${navButton("students", "Students")}
