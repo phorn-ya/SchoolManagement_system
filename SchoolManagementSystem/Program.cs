@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SchoolManagementSystem.Data;
-using SchoolManagementSystem.Models;
 using SchoolManagementSystem.Services;
 
 var builder = WebApplication.CreateBuilder(args);
