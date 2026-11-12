@@ -133,12 +133,23 @@ public class ClassesController(ApplicationDbContext db) : ControllerBase
             enrollment.ClassSectionId == id && enrollment.StudentId == request.StudentId))
             return Conflict(new { message = "Student is already enrolled in this class." });
 
-        db.Enrollments.Add(new Enrollment
+        var existingEnrollment = await db.Enrollments.FirstOrDefaultAsync(enrollment =>
+            enrollment.StudentId == request.StudentId &&
+            enrollment.CourseId == section.CourseId &&
+            enrollment.ClassSectionId == null);
+        if (existingEnrollment is not null)
         {
-            StudentId = request.StudentId,
-            CourseId = section.CourseId,
-            ClassSectionId = id
-        });
+            existingEnrollment.ClassSectionId = id;
+        }
+        else
+        {
+            db.Enrollments.Add(new Enrollment
+            {
+                StudentId = request.StudentId,
+                CourseId = section.CourseId,
+                ClassSectionId = id
+            });
+        }
         await db.SaveChangesAsync();
         return Ok(new { request.StudentId, ClassSectionId = id });
     }

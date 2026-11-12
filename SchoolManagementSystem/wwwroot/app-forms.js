@@ -76,9 +76,9 @@ function courseForm(course) {
 }
 
 function enrollmentForm() {
-  if (!state.students.length || !state.courses.length) {
+  if (!state.students.length || !state.classes.length) {
     toast(
-      "Add at least one student and one course before creating an enrollment.",
+      "Add at least one student and one class before creating an enrollment.",
       true,
     );
     return;
@@ -89,16 +89,16 @@ function enrollmentForm() {
         `<option value="${student.id}">${escapeHtml(student.firstName)} ${escapeHtml(student.lastName)} (${escapeHtml(student.studentCode)})</option>`,
     )
     .join("");
-  const courseOptions = state.courses
+  const classOptions = state.classes
     .map(
-      (course) =>
-        `<option value="${course.id}">${escapeHtml(course.name)} (${escapeHtml(course.courseCode)})</option>`,
+      (classItem) =>
+        `<option value="${classItem.id}">${escapeHtml(classItem.sectionCode)} · ${escapeHtml(classItem.courseName)} · ${escapeHtml(classItem.term)}</option>`,
     )
     .join("");
-  const body = `<div class="form-grid"><div class="field full"><label for="field-studentId">Student</label><select id="field-studentId" name="studentId" required>${studentOptions}</select></div><div class="field full"><label for="field-courseId">Course</label><select id="field-courseId" name="courseId" required>${courseOptions}</select></div></div>`;
+  const body = `<div class="form-grid"><div class="field full"><label for="field-studentId">Student</label><select id="field-studentId" name="studentId" required>${studentOptions}</select></div><div class="field full"><label for="field-classSectionId">Class</label><select id="field-classSectionId" name="classSectionId" required>${classOptions}</select></div></div>`;
   openModal(
     "Add enrollment",
-    "Choose a student and course to register.",
+    "Choose a student and class to register.",
     body,
     "Add enrollment",
   );

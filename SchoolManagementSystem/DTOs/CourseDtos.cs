@@ -14,4 +14,7 @@ public record CourseUpdateDto(
     [Range(1, 30)] int Credits);
 
 public record CourseResponse(int Id, string CourseCode, string Name, string? Description, int Credits);
-public record EnrollmentCreateDto([Range(1, int.MaxValue)] int StudentId, [Range(1, int.MaxValue)] int CourseId);
+public record EnrollmentCreateDto(
+    [Range(1, int.MaxValue)] int StudentId,
+    [Range(1, int.MaxValue)] int CourseId,
+    [Range(1, int.MaxValue)] int? ClassSectionId = null);

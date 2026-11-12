@@ -119,7 +119,11 @@ async function loadView() {
       state.courses = await request("/api/courses");
       content.innerHTML = renderCourses();
     } else if (state.view === "enrollments") {
-      state.enrollments = await request("/api/enrollments");
+      [state.enrollments, state.students, state.classes] = await Promise.all([
+        request("/api/enrollments"),
+        request("/api/students"),
+        request("/api/classes"),
+      ]);
       content.innerHTML = renderEnrollments();
     } else if (state.view === "teachers") {
       state.teachers = await request("/api/teachers");

@@ -27,10 +27,13 @@ async function submitRecord(form) {
     body.pointsPossible = Number(values.pointsPossible);
     body.dueDate = values.dueDate || null;
   } else {
+    const classSectionId = Number(values.classSectionId);
+    const classItem = state.classes.find((item) => item.id === classSectionId);
     path = "/api/enrollments";
     body = {
       studentId: Number(values.studentId),
-      courseId: Number(values.courseId),
+      courseId: classItem.courseId,
+      classSectionId,
     };
   }
   submit.disabled = true;

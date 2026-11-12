@@ -36,14 +36,14 @@ function renderEnrollments() {
     .map(
       (item) => `<tr class="searchable">
     <td><div class="primary-cell">${escapeHtml(item.studentName)}</div><div class="secondary-cell">Student #${escapeHtml(item.studentId)}</div></td>
-    <td>${escapeHtml(item.courseName)}<div class="secondary-cell">Course #${escapeHtml(item.courseId)}</div></td>
+    <td>${escapeHtml(item.courseName)}<div class="secondary-cell">${item.classSectionCode ? `Class ${escapeHtml(item.classSectionCode)}` : `Course #${escapeHtml(item.courseId)} · No class assigned`}</div></td>
     <td><span class="badge">${escapeHtml(item.status)}</span></td><td>${escapeHtml(formatDate(item.enrolledAtUtc))}</td>
     ${state.user.role === "Admin" ? `<td><div class="table-actions"><button class="icon-button" type="button" data-action="delete-enrollment" data-id="${item.id}" aria-label="Remove enrollment for ${escapeHtml(item.studentName)} in ${escapeHtml(item.courseName)}" title="Remove enrollment">${icons.trash}</button></div></td>` : ""}
   </tr>`,
     )
     .join("");
-  return `${heading("Enrollments", "Track students registered for each course.", actionButton("Add enrollment"))}
-    <section class="panel table-panel"><div class="table-toolbar"><div class="panel-heading"><div><h2 class="panel-title">Course enrollments</h2><p class="panel-description">${state.enrollments.length} enrollment${state.enrollments.length === 1 ? "" : "s"}</p></div></div></div>
+  return `${heading("Enrollments", "Track students registered for each class.", actionButton("Add enrollment"))}
+    <section class="panel table-panel"><div class="table-toolbar"><div class="panel-heading"><div><h2 class="panel-title">Class enrollments</h2><p class="panel-description">${state.enrollments.length} enrollment${state.enrollments.length === 1 ? "" : "s"}</p></div></div></div>
       <div class="table-wrap"><table><thead><tr><th>Student</th><th>Course</th><th>Status</th><th>Enrolled</th>${state.user.role === "Admin" ? '<th><span class="sr-only">Actions</span></th>' : ""}</tr></thead><tbody>${rows || `<tr><td class="table-empty" colspan="${state.user.role === "Admin" ? 5 : 4}">No enrollments yet.${state.user.role === "Admin" ? " Add an enrollment to get started." : ""}</td></tr>`}</tbody></table></div>
     </section>`;
 }

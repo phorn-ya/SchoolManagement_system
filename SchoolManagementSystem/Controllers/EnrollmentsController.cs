@@ -24,6 +24,7 @@ public class EnrollmentsController(ApplicationDbContext db) : ControllerBase
                 StudentName = x.Student.FirstName + " " + x.Student.LastName,
                 x.CourseId,
                 CourseName = x.Course.Name,
+                ClassSectionCode = x.ClassSection == null ? null : x.ClassSection.SectionCode,
                 x.EnrolledAtUtc,
                 x.Status
             }).ToListAsync();
@@ -38,22 +39,68 @@ public class EnrollmentsController(ApplicationDbContext db) : ControllerBase
         if (!await db.Students.AnyAsync(x => x.Id == request.StudentId))
             return NotFound(new { message = "Student not found." });
 
+        var section = request.ClassSectionId is int classSectionId
+            ? await db.ClassSections.FirstOrDefaultAsync(x => x.Id == classSectionId)
+            : null;
+        if (request.ClassSectionId is not null && section is null)
+            return NotFound(new { message = "Class not found." });
+
+        if (section is not null && section.CourseId != request.CourseId)
+            return BadRequest(new { message = "The selected class does not belong to this course." });
+
         if (!await db.Courses.AnyAsync(x => x.Id == request.CourseId))
             return NotFound(new { message = "Course not found." });
 
-        if (await db.Enrollments.AnyAsync(x =>
-            x.StudentId == request.StudentId && x.CourseId == request.CourseId))
+        var classSectionIdForEnrollment = section?.Id;
+        if (section is null)
+        {
+            var matchingSections = await db.ClassSections
+                .Where(x => x.CourseId == request.CourseId)
+                .Select(x => x.Id)
+                .Take(2)
+                .ToListAsync();
+            if (matchingSections.Count == 1)
+                classSectionIdForEnrollment = matchingSections[0];
+        }
+
+        var existingEnrollment = await db.Enrollments.FirstOrDefaultAsync(x =>
+            x.StudentId == request.StudentId && x.CourseId == request.CourseId);
+        if (existingEnrollment is not null)
+        {
+            if (classSectionIdForEnrollment is not null && existingEnrollment.ClassSectionId is null)
+            {
+                existingEnrollment.ClassSectionId = classSectionIdForEnrollment;
+                await db.SaveChangesAsync();
+                return Ok(new
+                {
+                    existingEnrollment.Id,
+                    existingEnrollment.StudentId,
+                    existingEnrollment.CourseId,
+                    existingEnrollment.ClassSectionId,
+                    existingEnrollment.Status
+                });
+            }
+
             return Conflict(new { message = "Student is already enrolled in this course." });
+        }
 
         var enrollment = new Enrollment
         {
             StudentId = request.StudentId,
-            CourseId = request.CourseId
+            CourseId = request.CourseId,
+            ClassSectionId = classSectionIdForEnrollment
         };
 
         db.Enrollments.Add(enrollment);
         await db.SaveChangesAsync();
-        return Ok(new { enrollment.Id, enrollment.StudentId, enrollment.CourseId, enrollment.Status });
+        return Ok(new
+        {
+            enrollment.Id,
+            enrollment.StudentId,
+            enrollment.CourseId,
+            enrollment.ClassSectionId,
+            enrollment.Status
+        });
     }
 
     [HttpDelete("{id:int}")]
